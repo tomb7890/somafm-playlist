@@ -13,7 +13,6 @@ describe 'Groove Salad Link' do
 
   it 'finds secretagent in results set ' do
     s = SomafmPlaylist.new
-    set = s.set
-    expect(set).to include('secretagent')
+    expect(s.channels).to include('secretagent')
   end
 end

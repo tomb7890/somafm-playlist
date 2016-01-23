@@ -22,7 +22,7 @@ class SomafmPlaylist
     File.open('somafm.html', 'rb').read
   end
 
-  def set
+  def channels
     ndoc = Nokogiri::HTML(remote_html)
     ndoc.xpath('//ul/li/a/@href').to_s.split('//')
   end
