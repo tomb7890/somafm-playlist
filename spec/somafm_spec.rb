@@ -1,4 +1,3 @@
-require 'URI'
 require_relative '../somafm'
 
 describe 'Groove Salad Link' do
@@ -10,5 +9,11 @@ describe 'Groove Salad Link' do
   it 'returns a valid URI' do
     s = SomafmPlaylist.new
     expect { URI.parse(s.groove_salad_uri) }.not_to raise_error
+  end
+
+  it 'finds secretagent in results set ' do
+    s = SomafmPlaylist.new
+    set = s.set
+    expect(set).to include('secretagent')
   end
 end
