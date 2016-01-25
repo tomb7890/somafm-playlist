@@ -1,4 +1,5 @@
 require_relative '../somafm'
+require_relative '../parser'
 
 describe 'Groove Salad Link' do
   it 'detects a bad URI' do
@@ -14,5 +15,11 @@ describe 'Groove Salad Link' do
   it 'finds secretagent in results set ' do
     s = SomafmPlaylist.new
     expect(s.channels).to include('secretagent')
+  end
+
+  it 'finds seven h2 headings' do
+    p = Parser.new
+    p.parse
+    expect(p.formats.size).to eq 7
   end
 end
