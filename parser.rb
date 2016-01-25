@@ -28,17 +28,6 @@ class Parser
     @formats << f
   end
 
-  def parse_0
-    elements = create_element_subset
-    fmt = Format.new
-    elem = elements.shift
-    until elements.empty?
-      fmt = process_el(elem, fmt)
-      elem = elements.shift
-    end
-    @formats << fmt
-  end
-
   def print_children(children)
     children.each { |c| puts c.to_s }
   end
@@ -66,15 +55,6 @@ class Parser
       f = handle_h2(el, f)
     elsif el.name == 'p'
       f = handle_p(el, f)
-    end
-    f
-  end
-
-  def process_el(el, f)
-    if el.name == 'h2'
-      f = h_h2(el, f)
-    elsif el.name == 'p'
-      f = h_p(el, f)
     end
     f
   end
