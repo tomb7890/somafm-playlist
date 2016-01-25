@@ -28,4 +28,9 @@ class SomafmPlaylist
     response = http.request(request)
     response.body
   end
+
+  def printit(el)
+    classval = el.attr('class')
+    puts "Name: #{el.name}; Value: <#{el.text}>; class: <#{classval}>"
+  end
 end
