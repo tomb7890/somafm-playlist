@@ -17,14 +17,42 @@ class Parser
     end
   end
 
-  def parse
-    modified = create_element_subset
-    elem = modified.pop
+  def parse(page)
+    elems = midcontent_elements(page)
     f = nil
-    until modified.empty?
-      f = process_element(elem, f)
-      elem = modified.pop
+    elems.each do |el|
+      f = heading_x(f, el) if a_heading?(el)
+      f = p_x(f, el) if a_p?(el)
     end
+    finish_pending_object(f)
+  end
+
+  private
+
+  def heading_x(f, el)
+    # When a h2 heading element is found, probably it means a new
+    # stream type is found
+    finish_pending_object(f)
+    f = make_new_object(el)
+    f
+  end
+
+  def p_x(f, el)
+    # when a P element is found it likely means another server has
+    # been found
+    f.servers << el.text
+    f
+  end
+
+  def make_new_object(elem)
+    f = Format.new
+    f.title = elem.text
+    f
+  end
+
+  def finish_pending_object(f)
+    return unless f
+    return unless f.servers.size > 0
     @formats << f
   end
 
@@ -32,45 +60,27 @@ class Parser
     children.each { |c| puts c.to_s }
   end
 
-  def create_element_subset
-    children = create_element_set_from_html
-    modified = []
-    children.each do |x|
-      modified << x if x.name == 'h2' && x.text.include?('kb')
-      modified << x if x.name == 'p' && x.attr('class') == 'url'
-    end
-    # print_children(modified)
-    modified.reverse
+  def printit(el)
+    classval = el.attr('class')
+    puts "Name: #{el.name}; Value: <#{el.text}>; class: <#{classval}>"
   end
 
-  def create_element_set_from_html
-    html = File.open('dsl.html', 'rb').read
-    nokogiri_object = Nokogiri::HTML(html)
-    tagcloud_elements = nokogiri_object.xpath("//div[@id='midcontent']")
-    tagcloud_elements.children
+  def a_heading?(x)
+    # return true if a heading of special interest
+    x.name == 'h2' && x.text.include?('kb')
   end
 
-  def process_element(el, f)
-    if el.name == 'h2'
-      f = handle_h2(el, f)
-    elsif el.name == 'p'
-      f = handle_p(el, f)
-    end
-    f
+  def a_p?(x)
+    # paragraph text of class url will contain a server URI in its
+    # text
+    x.name == 'p' && x.attr('class') == 'url'
   end
 
-  def handle_h2(el, f)
-    if f
-      @formats << f
-    else
-      f = Format.new
-      f.title = el.text
-    end
-    f
-  end
-
-  def handle_p(el, f)
-    f.servers << el.text
-    f
+  def midcontent_elements(page)
+    # this method gathers the elements of interest from the middle of
+    # the document
+    nokogiri_object = Nokogiri::HTML(page)
+    elements = nokogiri_object.xpath("//div[@id='midcontent']")
+    elements.children
   end
 end
