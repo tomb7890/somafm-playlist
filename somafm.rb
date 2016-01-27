@@ -26,6 +26,13 @@ class SomafmPlaylist
     m3u.close
   end
 
+  def format_list_from_channel_name(channel)
+    # Given a channel name, retrieve a list of formats
+    dslpage = "http://somafm.com/#{channel}/directstreamlinks.html"
+    response_body = remote_html(dslpage)
+    process_response(response_body)
+  end
+
   private
 
   # The M3uFile is a thin wrapper around a Ruby file
@@ -52,13 +59,6 @@ class SomafmPlaylist
     trackname = "#{mp3fmt} #{server}"
     url = server.split(': ')[1]
     m3u.write_entry(trackname, url)
-  end
-
-  def format_list_from_channel_name(channel)
-    # Given a channel name, retrieve a list of formats
-    dslpage = "http://somafm.com/#{channel}/directstreamlinks.html"
-    response_body = remote_html(dslpage)
-    process_response(response_body)
   end
 
   def process_response(r)
