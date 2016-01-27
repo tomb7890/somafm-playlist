@@ -6,17 +6,6 @@ class Parser
     @formats = []
   end
 
-  # The # Format class encapsulates a particular format or codec of a
-  # program as well as a list of servers (links) to access that
-  # format.
-  class Format
-    attr_accessor :title, :servers
-    def initialize
-      @title = ''
-      @servers = []
-    end
-  end
-
   def parse(page)
     elems = midcontent_elements(page)
     f = nil
@@ -82,5 +71,16 @@ class Parser
     nokogiri_object = Nokogiri::HTML(page)
     elements = nokogiri_object.xpath("//div[@id='midcontent']")
     elements.children
+  end
+
+  # The # Format class encapsulates a particular format or codec of a
+  # program as well as a list of servers (links) to access that
+  # format.
+  class Format
+    attr_accessor :title, :servers
+    def initialize
+      @title = ''
+      @servers = []
+    end
   end
 end
