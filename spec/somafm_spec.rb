@@ -1,4 +1,5 @@
 require_relative '../somafm'
+require_relative './spec_helper'
 
 def parsefile(p, filename)
   page = File.open(filename, 'rb').read
