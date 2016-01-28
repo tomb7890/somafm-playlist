@@ -22,9 +22,9 @@ describe 'local tests' do
     expect(s.channels).to include('secretagent')
   end
 
-  it 'finds seven h2 headings' do
+  it 'finds seven groovesalad formats' do
     p = Parser.new
-    parsefile(p, 'dsl.html')
+    parsefile(p, 'spec/data/somafm.com/groovesalad/directstreamlinks.html')
     expect(p.formats.size).to eq 7
   end
 
