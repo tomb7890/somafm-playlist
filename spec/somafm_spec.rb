@@ -35,20 +35,11 @@ describe 'local tests' do
     end
   end
 
-describe 'network tests' do
-  it 'finds seven suburbsofgoa h2 headings' do
+  it 'finds six suburbsofgoa Formats' do
     s = SomafmPlaylist.new
     channels = s.channels
-    # expect(ch).to include('space')
-    channels = channels.sort_by { rand }
-    channels.each do |ch|
-      begin
-        formats = s.format_list_from_channel_name(ch)
-        expect(formats.size).to be >= 3
-      rescue StandardError, e
-        puts "The problematic thingy was #{ch}"
-        raise
-      end
-    end
+    ch = channels.find { |c| c.include?('goa') }
+    formats = s.format_list_from_channel_name(ch)
+    expect(formats.size).to eq 6
   end
 end
