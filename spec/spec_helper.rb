@@ -3,11 +3,12 @@ require 'webmock/rspec'
 WebMock.disable_net_connect!(allow_localhost: true)
 
 def local_html(f)
-  if f.to_s ==  'http://somafm.com:80/'
-    localfile = 'spec/data/somafm.com/index.html'
-  else
-    localfile = "spec/data/somafm.com#{f.path}"
-  end
+  localfile = if f.to_s == 'http://somafm.com:80/'
+                'spec/data/somafm.com/index.html'
+              else
+                "spec/data/somafm.com#{f.path}"
+              end
+
   File.open(localfile, 'r')
 end
 
