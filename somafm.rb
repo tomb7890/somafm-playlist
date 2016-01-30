@@ -20,6 +20,8 @@ class SomafmPlaylist
 
   def make_m3u_file
     m3u = M3uFile.new
+    return unless m3u.exists?
+    m3u.open
     channels.each do |ch|
       make_m3u_entry_from_channel(ch, m3u)
     end
@@ -38,7 +40,10 @@ class SomafmPlaylist
   # The M3uFile is a thin wrapper around a Ruby file
   class M3uFile
     def initialize
-      @f = File.open(ENV['HOME'] + '/Music/somafm.m3u', 'w')
+    end
+
+    def open
+      @f = File.open(filename, 'w')
       @f.write("#EXTM3U\n\n")
     end
 
@@ -49,6 +54,14 @@ class SomafmPlaylist
 
     def close
       @f.close
+    end
+
+    def exists?
+      File.exist?(filename)
+    end
+
+    def filename
+      ENV['HOME'] + '/Music/somafm.m3u'
     end
   end
 

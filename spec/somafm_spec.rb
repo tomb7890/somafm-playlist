@@ -29,10 +29,8 @@ describe 'local tests' do
   end
 
   it 'makes the m3u file' do
-    unless File.exist?('~/Music/somafm.m3u')
-      s = SomafmPlaylist.new
-      s.make_m3u_file
-    end
+    s = SomafmPlaylist.new
+    s.make_m3u_file
   end
 
   it 'finds six suburbsofgoa Formats' do
