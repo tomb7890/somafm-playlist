@@ -56,7 +56,7 @@ class SomafmPlaylist
     formats = format_list_from_channel_name(ch)
     mp3fmt = formats.find { |format| format.title.include?('MP3 128') }
     server = mp3fmt.servers.find { |s| s.include?('Direct') }
-    trackname = "#{mp3fmt} #{server}"
+    trackname = "#{ch} #{server}"
     url = server.split(': ')[1]
     m3u.write_entry(trackname, url)
   end
