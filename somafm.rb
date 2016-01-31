@@ -14,10 +14,6 @@ class SomafmPlaylist
     ndoc.xpath('//ul/li/a/@href').to_s.split('//')
   end
 
-  def groove_salad_uri
-    'http://uwstream1.somafm.com:80'
-  end
-
   def make_m3u_file
     m3u = M3uFile.new
     return if m3u.exists?

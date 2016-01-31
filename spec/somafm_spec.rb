@@ -12,9 +12,9 @@ describe 'local tests' do
     expect { URI.parse(baduri) }.to raise_error(URI::InvalidURIError)
   end
 
-  it 'returns a valid URI' do
+  it 'finds groovesalad in results set ' do
     s = SomafmPlaylist.new
-    expect { URI.parse(s.groove_salad_uri) }.not_to raise_error
+    expect(s.channels).to include('groovesalad')
   end
 
   it 'finds secretagent in results set ' do
