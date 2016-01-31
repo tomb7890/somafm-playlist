@@ -11,7 +11,10 @@ class SomafmPlaylist
   def channels
     # returns a list of text strings representing the channel names
     ndoc = Nokogiri::HTML(remote_html)
-    ndoc.xpath('//ul/li/a/@href').to_s.split('//')
+    elements = ndoc.xpath('//ul/li/a/@href').to_s.split('//')
+    elements.map! do |e|
+      e = e.tr('//', '')
+    end
   end
 
   def make_m3u_file
