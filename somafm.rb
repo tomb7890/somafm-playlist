@@ -34,35 +34,11 @@ class SomafmPlaylist
     process_response(response_body)
   end
 
+
+
+
+
   private
-
-  # The M3uFile is a thin wrapper around a Ruby file
-  class M3uFile
-    def initialize
-    end
-
-    def open
-      @f = File.open(filename, 'w')
-      @f.write("#EXTM3U\n\n")
-    end
-
-    def write_entry(trackname, url)
-      @f.write("#EXTINF:-1,#{trackname}\n\n")
-      @f.write("#{url}\n\n")
-    end
-
-    def close
-      @f.close
-    end
-
-    def exists?
-      File.exist?(filename)
-    end
-
-    def filename
-      ENV['HOME'] + '/Music/somafm.m3u'
-    end
-  end
 
   def make_m3u_entry_from_channel(ch, m3u)
     formats = format_list_from_channel_name(ch)
