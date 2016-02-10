@@ -1,6 +1,7 @@
 # !/usr/bin/ruby -w
 
 require_relative 'parser'
+require_relative 'm3ufile'
 require 'net/http'
 require 'nokogiri'
 
@@ -13,7 +14,7 @@ class SomafmPlaylist
     ndoc = Nokogiri::HTML(remote_html)
     elements = ndoc.xpath('//ul/li/a/@href').to_s.split('//')
     elements.map! do |e|
-      e = e.tr('//', '')
+      e.tr('//', '')
     end
   end
 
@@ -33,10 +34,6 @@ class SomafmPlaylist
     response_body = remote_html(dslpage)
     process_response(response_body)
   end
-
-
-
-
 
   private
 
