@@ -21,7 +21,7 @@ class SomafmPlaylist
   def make_m3u_file
     m3u = M3uFile.new
     return if m3u.exists?
-    m3u.open
+    m3u.openfile
     channels.each do |ch|
       make_m3u_entry_from_channel(ch, m3u)
     end

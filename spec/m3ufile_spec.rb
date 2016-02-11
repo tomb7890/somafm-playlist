@@ -19,6 +19,13 @@ describe 'M3uFile tests' do
     s = SomafmPlaylist.new
     s.make_m3u_file
     mf = M3uFile.new.getfilename
-    expect(File).to exist(mf)
+    expect(File).to exist(File.expand_path(mf))
+  end
+
+  it 'defaults to a standard default in case of junk config' do
+    m = M3uFile.new
+    test_yaml_object = { 'foo' => 'bar' }
+    m.config = test_yaml_object
+    expect(m.getfilename).to eq '~/Music/somafm.m3u'
   end
 end
