@@ -1,12 +1,17 @@
-class M3uFile
-  def initialize
-  end
+require 'yaml'
 
-  def open
-    @f = File.open(filename, 'w')
+# This class encapsulates the knowledge about M3uFile creation. By
+# default it looks to a standard place for a config.yml file, from which
+# it gleans a location for the writing of a M3U file.
+class M3uFile
+  attr_accessor :config
+
+  def openfile
+    File.open(getfilename, 'w')
   end
 
   def write_entry(trackname, url)
+    @f = openfile if @f.nil?
     @f.write("#EXTINF:-1,#{trackname}\n\n")
     @f.write("#{url}\n\n")
   end
@@ -16,16 +21,16 @@ class M3uFile
   end
 
   def exists?
-    File.exist?(filename)
+    File.exist?(getfilename)
   end
 
-  def filename
+  def getfilename
+    @config = getconfig if @config.nil?
+    File.expand_path(@config['filename'])
+  end
+
+  def getconfig
     configfile = 'config/config.yml'
-    if File.exist?(configfile)
-      config = YAML.load_file(configfile)
-      m3ufile = File.expand_path(config['filename'])
-    else
-      m3ufile = File.expand_path('~/Music/somafm.m3u')
-    end
+    YAML.load_file(configfile)
   end
 end
