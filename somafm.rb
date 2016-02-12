@@ -47,7 +47,7 @@ class SomafmPlaylist
   end
 
   def process_response(r)
-    p = Parser.new
+    p = M3U::Parser.new
     p.parse(r)
     p.formats
   end

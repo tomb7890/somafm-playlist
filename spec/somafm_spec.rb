@@ -23,14 +23,9 @@ describe 'local tests' do
   end
 
   it 'finds seven groovesalad formats' do
-    p = Parser.new
+    p = M3U::Parser.new
     parsefile(p, 'spec/data/somafm.com/groovesalad/directstreamlinks.html')
     expect(p.formats.size).to eq 7
-  end
-
-  it 'makes the m3u file' do
-    s = SomafmPlaylist.new
-    s.make_m3u_file
   end
 
   it 'finds six suburbsofgoa Formats' do
