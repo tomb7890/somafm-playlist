@@ -1,6 +1,10 @@
 # spec/spec_helper.rb
 require 'webmock/rspec'
-WebMock.disable_net_connect!(allow_localhost: true)
+if 'test' == ENV['ENV']
+  WebMock.disable_net_connect!(allow_localhost: true)
+else
+  WebMock.allow_net_connect!
+end
 
 def local_html(f)
   localfile = if f.to_s == 'http://somafm.com:80/'
