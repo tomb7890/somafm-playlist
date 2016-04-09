@@ -29,9 +29,9 @@ class M3uFile
   def getfilename
     rc = DEFAULT_FILENAME
     @config = getconfig if @config.nil?
-    unless @config
+    if @config
       t = @config['filename']
-      rc = t unless t
+      rc = t unless t.nil?
     end
     rc
   end

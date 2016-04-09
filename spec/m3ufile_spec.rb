@@ -12,7 +12,7 @@ describe 'M3uFile tests' do
     m = M3uFile.new
     test_yaml_object = { 'filename' => '~/Music/oop.m3u' }
     m.config = test_yaml_object
-    expect(m.getfilename.end_with?('oop.m3u'))
+    expect(m.getfilename).to end_with('oop.m3u')
   end
 
   it 'makes an m3u file in the default case' do
