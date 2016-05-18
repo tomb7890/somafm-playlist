@@ -1,6 +1,13 @@
 # spec/spec_helper.rb
+require 'Rake'
 require 'webmock/rspec'
-if 'test' == ENV['ENV']
+
+def this_is_a_spec_task
+  # if Rake::Task.tasks.include?('spec')
+  true
+end
+
+if this_is_a_spec_task
   WebMock.disable_net_connect!(allow_localhost: true)
 else
   WebMock.allow_net_connect!
@@ -17,7 +24,7 @@ end
 
 RSpec.configure do |config|
   config.before(:each) do
-    if 'test' == ENV['ENV']
+    if this_is_a_spec_task
       stub_request(:any, %r{http://somafm.com}).to_return do |request|
         response = local_html(request.uri)
         { body: response, status: 200 }
