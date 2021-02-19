@@ -2,7 +2,7 @@
 
 require_relative 'parser'
 require_relative 'm3ufile'
-require 'net/http'
+require 'mechanize'
 require 'nokogiri'
 
 # The SomafmPlaylist class is used to extract links from a streaming
@@ -59,10 +59,8 @@ class SomafmPlaylist
   end
 
   def remote_html(u = 'http://somafm.com')
-    uri = URI.parse(u)
-    http = Net::HTTP.new(uri.host, uri.port)
-    request = Net::HTTP::Get.new(uri.request_uri)
-    response = http.request(request)
-    response.body
+    agent = Mechanize.new
+    page = agent.get u
+    page.body
   end
 end
