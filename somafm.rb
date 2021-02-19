@@ -23,7 +23,11 @@ class SomafmPlaylist
     return if m3u.exists?
     m3u.openfile
     channels.each do |ch|
-      make_m3u_entry_from_channel(ch, m3u)
+      begin
+        make_m3u_entry_from_channel(ch, m3u)
+      rescue Mechanize::ResponseCodeError => e
+        puts "Direct links lookup failure for channel [#{ch}]: #{e}. "
+      end
     end
     m3u.close
   end
